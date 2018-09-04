@@ -25,6 +25,11 @@ public class VendingMachine {
      * @param configuration obiekt zawierający używaną konfigurację.
      */
     public VendingMachine(Configuration configuration) {
+        Long rowSize = configuration.getProperty("machine.size.rows", 6L);
+        Long colSize = configuration.getProperty("machine.size.cols", 4L);
+        if(rowSize > 26 || rowSize < 1 || colSize > 9 || colSize < 1){
+            throw new IllegalArgumentException();
+        }
         this.configuration = configuration;
     }
 
@@ -33,7 +38,7 @@ public class VendingMachine {
      * zależy od implemetacji interface Configuration.
      * @return ilość wieszy w automacie pobrana z konfiguracji lub domyślna wartość 6.
      */
-    public Long rowsSize() {
+    public Long rowsSize()throws IllegalArgumentException {
         // tekst "machine.size.rows" jest kluczem, pod którym powinna być zapisana maksymalna ilość wierszy tego automatu
         return configuration.getProperty("machine.size.rows", 6L);
     }

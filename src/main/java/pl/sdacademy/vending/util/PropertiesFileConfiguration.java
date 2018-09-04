@@ -81,7 +81,7 @@ public class PropertiesFileConfiguration implements Configuration {
      * @return jeżeli wartość istnieje, to jest zwracana jako Long, jeżeli wartość dla klucza nie istnieje, to jest
      * zwracana wartość domyślna
      */
-    public Long getProperty(String propertyName, Long defaultValue) {
+    public Long getProperty(String propertyName, Long defaultValue)throws IllegalArgumentException{
         // w pierwszym kroku próbujemy pobrać wartość z properties dla żądanego klucza (czyli na propertyName)
         String requestedValue = properties.getProperty(propertyName);
         // sprawdzamy, czy udało się odczytać wartość z properties

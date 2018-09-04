@@ -2,6 +2,7 @@ package pl.sdacademy.vending.model;
 
 import org.junit.Test;
 import pl.sdacademy.vending.util.Configuration;
+import pl.sdacademy.vending.util.PropertiesFileConfiguration;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyLong;
@@ -71,6 +72,41 @@ public class VendingMachineTest {
         // minimalną poprawną wartością dla ilości wierszy jest 1. Ta konfiguracja zwróci zbyt dużą ilość wierszy.
         when(mockedConfig.getProperty(eq(PARAM_NAME_ROWS), anyLong()))
                 .thenReturn(0L);
+
+        // when
+        // testujemy tylko to, czy uda się utworzyć automat
+        new VendingMachine(mockedConfig);
+    }
+    // w adnotacji Test definiujemy, jaki wyjątek powinien zostać wyrzucony.
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionWhenThereAreTooManyCols() {
+        // given
+        // towrzymy sztuczną konfigurację
+        Configuration mockedConfig = mock(Configuration.class);
+        // definiujemy zwracane przez konfigurację wartości
+        when(mockedConfig.getProperty(eq(PARAM_NAME_COLS), anyLong()))
+                .thenReturn(10L);
+        // maksymalną poprawną wartością dla ilości wierszy jest 26. Ta konfiguracja zwróci zbyt dużą ilość wierszy.
+        when(mockedConfig.getProperty(eq(PARAM_NAME_ROWS), anyLong()))
+                .thenReturn(8L);
+
+        // when
+        // testujemy tylko to, czy uda się utworzyć automat
+        new VendingMachine(mockedConfig);
+    }
+
+    // w adnotacji Test definiujemy, jaki wyjątek powinien zostać wyrzucony.
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionWhenThereAreTooFewCols() {
+        // given
+        // towrzymy sztuczną konfigurację
+        Configuration mockedConfig = mock(Configuration.class);
+        // definiujemy zwracane przez konfigurację wartości
+        when(mockedConfig.getProperty(eq(PARAM_NAME_COLS), anyLong()))
+                .thenReturn(0L);
+        // minimalną poprawną wartością dla ilości wierszy jest 1. Ta konfiguracja zwróci zbyt dużą ilość wierszy.
+        when(mockedConfig.getProperty(eq(PARAM_NAME_ROWS), anyLong()))
+                .thenReturn(8L);
 
         // when
         // testujemy tylko to, czy uda się utworzyć automat
